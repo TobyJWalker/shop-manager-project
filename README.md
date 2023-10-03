@@ -1,0 +1,1 @@
+This is a project which I am using to test all of my skills learned in the Makers Databases module. It will include test driving a full shop manager project where the user will be able to list and create items and orders.
