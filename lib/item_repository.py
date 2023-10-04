@@ -4,9 +4,9 @@ class ItemRepository:
     def __init__(self, connection):
         self._connection = connection
     
-    def all(self):
+    def all(self, sort_by=lambda item: item.id):
         rows = self._connection.execute('SELECT * FROM items')
-        return sorted([Item(row['id'], row['name'], row['quantity'], row['unit_price']) for row in rows], key=lambda item: item.id)
+        return sorted([Item(row['id'], row['name'], row['quantity'], row['unit_price']) for row in rows], key=sort_by)
     
     def find_by_name(self, name):
         rows = self._connection.execute('SELECT * FROM items WHERE name = %s', [name])
@@ -30,6 +30,16 @@ class ItemRepository:
             self._connection.execute(
                 "UPDATE items SET quantity = %s, unit_price = %s WHERE name = %s",
                 [quantity, price, name]
+            )
+            return True
+        else:
+            return False
+    
+    def delete_item(self, name):
+        if type(self.find_by_name(name)) == Item:
+            self._connection.execute(
+                "DELETE FROM items WHERE name = %s",
+                [name]
             )
             return True
         else:

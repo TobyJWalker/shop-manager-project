@@ -97,6 +97,16 @@ class Application:
                 price = None
 
         return name, quantity, price
+
+    # ask user for the name of an item to delete
+    def _prompt_for_item_delete(self, name=None):
+        while name == None:
+            name = input("\nEnter the name of the item to delete: ")
+            clear()
+            if name == "" or name.isspace():
+                print("Invalid name. Please try again.")
+                name = None
+        return name
     
     # list all items in a readable format
     def _list_all_items(self):
@@ -140,6 +150,7 @@ class Application:
 
                 # update an existing item
                 elif item_action == 'update':
+                    self._list_all_items()
                     name, quantity, price = self._prompt_for_item_contents()
                     success = self._item_repo.update_item(name, quantity, price)
 
@@ -152,7 +163,16 @@ class Application:
 
                 # delete an existing item
                 elif item_action == 'delete':
-                    pass
+                    self._list_all_items()
+                    target = self._prompt_for_item_delete()
+                    success = self._item_repo.delete_item(target)
+
+                    if success:
+                        print(f"\nItem '{target}' deleted successfully.")
+                    else:
+                        print(f"\nItem '{target}' does not exist.")
+                    input("\nPress enter to continue...")
+                    clear()
 
                 # list all items
                 elif item_action == 'list':

@@ -50,3 +50,16 @@ def test_update_item(db_connection):
     assert item1.id == 1
     assert item1.quantity == 9
     assert item1.unit_price == 1.5
+
+def test_delete_item(db_connection):
+    db_connection.seed('seeds/shop_manager.sql')
+    repo = ItemRepository(db_connection)
+
+    item1_success = repo.delete_item('apple')
+    item2_success = repo.delete_item('orange')
+
+    items = repo.all()
+
+    assert len(items) == 4
+    assert item1_success
+    assert not item2_success
