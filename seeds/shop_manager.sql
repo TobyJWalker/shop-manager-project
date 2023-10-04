@@ -60,20 +60,20 @@ create table items (
     name varchar(255),
     quantity int,
     unit_price float
-)
+);
 
 create table orders (
     id serial primary key,
     customer_name varchar(255),
     date_placed date
-)
+);
 
 create table orders_items (
     order_id int,
     item_id int,
     constraint fk_order_id foreign key (order_id) references orders(id) on delete cascade,
     constraint fk_item_id foreign key (item_id) references items(id) on delete cascade
-)
+);
 
 insert into items (name, quantity, unit_price) values ('apple', 10, 0.5);
 insert into items (name, quantity, unit_price) values ('banana', 5, 0.75);
