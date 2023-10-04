@@ -25,3 +25,13 @@ class ItemRepository:
         else:
             return False
     
+    def update_item(self, name, quantity, price):
+        if type(self.find_by_name(name)) == Item:
+            self._connection.execute(
+                "UPDATE items SET quantity = %s, unit_price = %s WHERE name = %s",
+                [quantity, price, name]
+            )
+            return True
+        else:
+            return False
+    
