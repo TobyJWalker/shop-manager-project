@@ -152,17 +152,22 @@ class Application:
             while item_name != 'q':
                 self._list_all_items()
                 item_name = input("\nEnter the name of an item to add (q to stop): ")
-                if item_name == 'q':
+                if item_name == 'q' and len(item_ids) == 0:
+                    clear()
+                    item_name = None
+                    print("An order must have at least one item. Please try again.")
+                elif item_name == 'q':
                     clear()
                     break
-                clear()
-                item = self._item_repo.find_by_name(item_name)
-                if type(item) != Item:
-                    print("Invalid item. Please try again.")
-                    item = None
-                else:             
-                    print(f"Item '{item_name}' added to order.")       
-                    item_ids.append(item.id)
+                else:
+                    clear()
+                    item = self._item_repo.find_by_name(item_name)
+                    if type(item) != Item:
+                        print("Invalid item. Please try again.")
+                        item = None
+                    else:             
+                        print(f"Item '{item_name}' added to order.")       
+                        item_ids.append(item.id)
 
             return name, sorted(item_ids)
 
