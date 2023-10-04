@@ -129,14 +129,26 @@ class Application:
                 # create a new item
                 if item_action == 'create':
                     name, quantity, price = self._prompt_for_item_contents()
-                    self._item_repo.create_item(name, quantity, price)
-                    print(f"\nItem '{name}' created successfully.")
+                    success = self._item_repo.create_item(name, quantity, price)
+                    
+                    if success:
+                        print(f"\nItem '{name}' created successfully.")
+                    else:
+                        print(f"\nItem '{name}' already exists.")
                     input("\nPress enter to continue...")
                     clear()
 
                 # update an existing item
                 elif item_action == 'update':
-                    pass
+                    name, quantity, price = self._prompt_for_item_contents()
+                    success = self._item_repo.update_item(name, quantity, price)
+
+                    if success:
+                        print(f"\nItem '{name}' updated successfully.")
+                    else:
+                        print(f"\nItem '{name}' does not exist.")
+                    input("\nPress enter to continue...")
+                    clear()
 
                 # delete an existing item
                 elif item_action == 'delete':

@@ -6,7 +6,7 @@ class ItemRepository:
     
     def all(self):
         rows = self._connection.execute('SELECT * FROM items')
-        return [Item(row['id'], row['name'], row['quantity'], row['unit_price']) for row in rows]
+        return sorted([Item(row['id'], row['name'], row['quantity'], row['unit_price']) for row in rows], key=lambda item: item.id)
     
     def find_by_name(self, name):
         rows = self._connection.execute('SELECT * FROM items WHERE name = %s', [name])
