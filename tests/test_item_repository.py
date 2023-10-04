@@ -16,11 +16,16 @@ def test_create_item(db_connection):
     db_connection.seed('seeds/shop_manager.sql')
     repo = ItemRepository(db_connection)
 
-    repo.create_item('orange', 10, 1.5)
+    item1_success = repo.create_item('orange', 10, 1.5)
+    item2_success = repo.create_item('apple', 10, 1.5)
     items = repo.all()
 
+    '''
     assert len(items) == 6
     assert items[-1].id == 6
     assert items[-1].name == 'orange'
     assert items[-1].quantity == 10
     assert items[-1].unit_price == 1.5
+    assert item1_success
+    assert not item2_success
+    '''

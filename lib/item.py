@@ -6,7 +6,7 @@ class Item:
         self.unit_price = unit_price
 
     def __repr__(self):
-        return f"Item({self.id}, {self.name}, {self.quantity}, {self.unit_price})"
+        return f"{self.id}: {self.name} - {self.quantity} @ £{self.unit_price:.2f}"
     
     def __eq__(self, other):
         return self.__dict__ == other.__dict__

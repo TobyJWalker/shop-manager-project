@@ -9,7 +9,7 @@ def test_init():
 
 def test_repr():
     item = Item(1, 'test', 1, 1)
-    assert repr(item) == 'Item(1, test, 1, 1)'
+    assert repr(item) == '1: test - 1 @ £1.00'
 
 def test_eq():
     item1 = Item(1, 'test', 1, 1)
