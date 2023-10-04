@@ -1,4 +1,4 @@
-from lib.order import Order
+from lib.order import *
 
 def test_init():
     order = Order(1, 'name', '01/01/2023')
@@ -17,3 +17,12 @@ def test_eq():
     order2 = Order(1, 'name', '01/01/2023')
 
     assert order1 == order2
+
+def test_calculate_total(db_connection):
+    db_connection.seed('seeds/shop_manager.sql')
+    item_repo = ItemRepository(db_connection)
+
+    order = Order(1, 'name', '01/01/2023', [1, 1])
+    total = order.calculate_total(item_repo)
+
+    assert total == 1
