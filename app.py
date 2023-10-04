@@ -137,7 +137,7 @@ class Application:
                     break
 
                 # create a new item
-                if item_action == 'create':
+                elif item_action == 'create':
                     name, quantity, price = self._prompt_for_item_contents()
                     success = self._item_repo.create_item(name, quantity, price)
                     

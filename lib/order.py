@@ -6,7 +6,7 @@ class Order:
         self.items = items
     
     def __repr__(self):
-        return f"Order({self.id}, {self.customer_name}, {self.date_placed}, {self.items})"
+        return f"{self.id}: {self.customer_name} ({self.date_placed})"
     
     def __eq__(self, other):
         return self.__dict__ == other.__dict__

@@ -10,7 +10,7 @@ def test_init():
 def test_repr():
     order = Order(1, 'name', '01/01/2023')
 
-    assert str(order) == 'Order(1, name, 01/01/2023, None)'
+    assert str(order) == '1: name (01/01/2023)'
 
 def test_eq():
     order1 = Order(1, 'name', '01/01/2023')
