@@ -15,6 +15,13 @@ class ItemRepository:
         else:
             return None
     
+    def find_by_id(self, id):
+        rows = self._connection.execute('SELECT * FROM items WHERE id = %s', [id])
+        if rows != []:
+            return Item(rows[0]['id'], rows[0]['name'], rows[0]['quantity'], rows[0]['unit_price'])
+        else:
+            return None
+    
     def create_item(self, name, quantity, price):
         if type(self.find_by_name(name)) != Item:
             self._connection.execute(
