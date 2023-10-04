@@ -41,3 +41,13 @@ class OrderRepository:
                 'INSERT INTO orders_items (order_id, item_id) VALUES (%s, %s)',
                 [order_id, item_id]
             )
+    
+    def delete_by_id(self, id):
+        if type(self.find_by_id(id)) == Order:
+            self._connection.execute(
+                'DELETE FROM orders WHERE id = %s',
+                [id]
+            )
+            return True
+
+        return False

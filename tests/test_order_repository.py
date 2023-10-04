@@ -40,3 +40,14 @@ def test_find_by_id(db_connection):
     order = repo.find_by_id(1)
 
     assert order.items == [1, 2, 5]
+
+def test_delete_by_id(db_connection):
+    db_connection.seed('seeds/shop_manager.sql')
+    repo = OrderRepository(db_connection)
+
+    success = repo.delete_by_id(1)
+    orders = repo.all()
+
+    assert len(orders) == 2
+    assert success == True
+    assert orders[0].customer_name == 'Jane'
