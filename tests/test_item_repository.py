@@ -1,4 +1,4 @@
-from lib.item_repository import ItemRepository
+from lib.item_repository import *
 
 def test_all_items(db_connection):
     db_connection.seed('seeds/shop_manager.sql')
@@ -11,6 +11,14 @@ def test_all_items(db_connection):
     assert items[0].name == 'apple'
     assert items[-1].id == 5
     assert items[-1].name == 'milk'
+
+def test_find_item_by_name(db_connection):
+    db_connection.seed('seeds/shop_manager.sql')
+    repo = ItemRepository(db_connection)
+
+    item = repo.find_by_name(name='chocolate')
+
+    assert item == Item(4, 'chocolate', 12, 1.99)
 
 def test_create_item(db_connection):
     db_connection.seed('seeds/shop_manager.sql')
