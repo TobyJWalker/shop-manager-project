@@ -9,7 +9,7 @@ class ItemRepository:
         return sorted([Item(row['id'], row['name'], row['quantity'], row['unit_price']) for row in rows], key=sort_by)
     
     def find_by_name(self, name):
-        rows = self._connection.execute('SELECT * FROM items WHERE name = %s', [name])
+        rows = self._connection.execute('SELECT * FROM items WHERE SIMILARITY(name, %s) > 0.3', [name])
         if rows != []:
             return Item(rows[0]['id'], rows[0]['name'], rows[0]['quantity'], rows[0]['unit_price'])
         else:
@@ -43,12 +43,15 @@ class ItemRepository:
             return False
     
     def delete_item(self, name):
-        if type(self.find_by_name(name)) == Item:
+        found_item = self.find_by_name(name)
+        if type(found_item) != Item:
+            return name, False
+        elif type(found_item) == Item and found_item.name == name:
             self._connection.execute(
                 "DELETE FROM items WHERE name = %s",
-                [name]
+                [found_item.name]
             )
-            return True
-        else:
-            return False
+            return found_item.name, True
+        elif type(found_item) == Item and found_item.name != name:
+            return found_item.name, False
     

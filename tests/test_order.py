@@ -18,6 +18,8 @@ def test_eq():
 
     assert order1 == order2
 
+''' INTEGRATION TESTS'''
+
 def test_calculate_total(db_connection):
     db_connection.seed('seeds/shop_manager.sql')
     item_repo = ItemRepository(db_connection)

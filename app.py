@@ -203,6 +203,14 @@ class Application:
             print(f"\t{self._item_repo.find_by_id(item).name} - £{self._item_repo.find_by_id(item).unit_price:.2f}")
         print(f"\n\tTotal: £{order.calculate_total(self._item_repo):.2f}")
     
+    # prompt for y or n answer
+    def _prompt_for_y_or_n(self, choice=None):
+        while choice != 'y' and choice != 'n':
+            choice = input("Enter here (y/n): ")
+            if choice != 'y' and choice != 'n':
+                print("Invalid choice. Please try again.")
+        return choice
+    
     # list all items in a readable format
     def _list_all_items(self):
         print("\nAll items:")
@@ -309,12 +317,20 @@ class Application:
                 elif item_action == 'delete':
                     self._list_all_items()
                     target = self._prompt_for_item_delete()
-                    success = self._item_repo.delete_item(target)
+                    deleted, success = self._item_repo.delete_item(target)
 
                     if success:
-                        print(f"\nItem '{target}' deleted successfully.")
-                    else:
+                        print(f"\nItem '{deleted}' deleted successfully.")
+                    elif not success and deleted == target:
                         print(f"\nItem '{target}' does not exist.")
+                    else:
+                        print(f"Item '{target}' does not exist. Did you mean '{deleted}'?")
+                        choice = self._prompt_for_y_or_n()
+                        if choice == 'y':
+                            self._item_repo.delete_item(deleted)
+                            print(f"\nItem '{deleted}' deleted successfully.")
+                        else:
+                            print(f"\nItem '{target}' not deleted.")
                     input("\nPress enter to continue...")
                     clear()
 
