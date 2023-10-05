@@ -33,14 +33,17 @@ class ItemRepository:
             return False
     
     def update_item(self, name, quantity, price):
-        if type(self.find_by_name(name)) == Item:
+        found_item = self.find_by_name(name)
+        if type(found_item) != Item:
+            return name, False
+        elif type(found_item) == Item and found_item.name == name:
             self._connection.execute(
                 "UPDATE items SET quantity = %s, unit_price = %s WHERE name = %s",
                 [quantity, price, name]
             )
-            return True
-        else:
-            return False
+            return found_item.name, True
+        elif type(found_item) == Item and found_item.name != name:
+            return found_item.name, False
     
     def delete_item(self, name):
         found_item = self.find_by_name(name)

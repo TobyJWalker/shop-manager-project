@@ -304,12 +304,20 @@ class Application:
                 elif item_action == 'update':
                     self._list_all_items()
                     name, quantity, price = self._prompt_for_item_contents()
-                    success = self._item_repo.update_item(name, quantity, price)
+                    updated, success = self._item_repo.update_item(name, quantity, price)
 
                     if success:
                         print(f"\nItem '{name}' updated successfully.")
-                    else:
+                    elif not success and updated == name:
                         print(f"\nItem '{name}' does not exist.")
+                    else:
+                        print(f"\nItem '{name}' does not exist. Did you mean '{updated}'?")
+                        choice = self._prompt_for_y_or_n()
+                        if choice == 'y':
+                            self._item_repo.update_item(updated, quantity, price)
+                            print(f"\nItem '{updated}' updated successfully.")
+                        else:
+                            print(f"\nItem '{name}' not updated.")
                     input("\nPress enter to continue...")
                     clear()
 
