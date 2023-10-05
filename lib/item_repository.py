@@ -9,7 +9,8 @@ class ItemRepository:
         return sorted([Item(row['id'], row['name'], row['quantity'], row['unit_price']) for row in rows], key=sort_by)
     
     def find_by_name(self, name):
-        rows = self._connection.execute('SELECT * FROM items WHERE SIMILARITY(name, %s) > 0.3', [name])
+        rows = self._connection.execute('SELECT * FROM items WHERE SIMILARITY(name, %(name)s) > 0.3 ' \
+                                        'ORDER BY SIMILARITY(name, %(name)s)', {'name': name})
         if rows != []:
             return Item(rows[0]['id'], rows[0]['name'], rows[0]['quantity'], rows[0]['unit_price'])
         else:

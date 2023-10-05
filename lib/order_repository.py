@@ -12,8 +12,8 @@ class OrderRepository:
         return sorted([Order(row['id'], row['customer_name'], row['date_placed']) for row in rows], key=sort_by)
 
     def find_by_name(self, name):
-        rows = self._connection.execute("SELECT * FROM orders WHERE customer_name = %s", 
-                                        [name])
+        rows = self._connection.execute("SELECT * FROM orders WHERE customer_name = %(customer_name)s", 
+                                        {'customer_name': name})
         return [Order(row['id'], row['customer_name'], row['date_placed']) for row in rows]
 
     def find_by_id(self, id):
